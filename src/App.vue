@@ -1,28 +1,42 @@
 <template>
-  <div id="app">
+  <div :class="themeClass" id="app">
     <router-view />
   </div>
 </template>
 
+<script>
+import themeMixin from "@/mixins/themeMixin";
+
+export default {
+  mixins: [themeMixin],
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import "@/assets/styles/_variables.scss";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: $font-main;
 }
 
-nav {
-  padding: 30px;
+#app {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.light-theme {
+  background: $background-light;
+  color: $font-primary-light;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.dark-theme {
+  background: $background-dark;
+  color: $font-primary-dark;
 }
 </style>
