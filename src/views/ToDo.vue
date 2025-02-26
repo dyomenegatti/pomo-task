@@ -1,17 +1,26 @@
 <template>
-  <div :class="themeClass" class="home">
+  <div :class="themeClass" class="container">
     <Header></Header>
+
+    <div class="content">
+      <Filters></Filters>
+      <Tasks></Tasks>
+    </div>
   </div>
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
 import themeMixin from "@/mixins/themeMixin";
+import Header from "@/components/Header.vue";
+import Filters from "@/components/Filters.vue";
+import Tasks from "@/components/Tasks.vue";
 
 export default {
   name: "ToDo",
   components: {
     Header,
+    Filters,
+    Tasks,
   },
   mixins: [themeMixin],
 };
@@ -20,7 +29,13 @@ export default {
 <style lang="scss">
 @import "@/assets/styles/_variables.scss";
 
-.home {
+.container {
   width: 80vw;
+  height: 80vh;
+
+  .content {
+    display: flex;
+    gap: 20px;
+  }
 }
 </style>

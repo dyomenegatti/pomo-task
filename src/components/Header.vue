@@ -37,6 +37,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0px 20px;
 
   .title {
     font-size: 3rem;
