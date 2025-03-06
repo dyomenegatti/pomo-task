@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div :class="themeClass" class="container">
     <div class="content">
       <span class="title">Filters</span>
 
@@ -40,20 +40,43 @@
 </template>
 
 <script>
+import themeMixin from "@/mixins/themeMixin";
+
 export default {
   name: "FiltersApp",
+  mixins: [themeMixin],
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables.scss";
 
+.container {
+  &.light-theme {
+    background: $background-secondary-light;
+    color: $color-text-light;
+  }
+
+  &.dark-theme {
+    background: $background-task-dark;
+    color: $text-dark;
+
+    .filters ul .filter-btn button {
+      color: $text-dark !important;
+    }
+    .filters .filters-footer .underline {
+      background: $text-dark !important;
+    }
+    .filters .filters-footer .copyright {
+      color: $text-dark !important;
+    }
+  }
+}
+
 .container .content {
   padding: 50px;
   height: 80vh;
   border-radius: 10px;
-  background: $primary-dark;
-  color: $font-secondary-dark;
   display: flex;
   flex-direction: column;
 
@@ -78,7 +101,7 @@ export default {
         background: transparent;
         cursor: pointer;
         padding: 10px;
-        color: $font-secondary-dark;
+        color: $color-text-light;
       }
     }
 
@@ -91,7 +114,11 @@ export default {
       .underline {
         width: 100%;
         height: 2px;
-        background: $font-secondary-dark;
+        background: $color-text-light;
+      }
+      .copyright {
+        color: $color-text-light;
+        margin-top: 24px;
       }
     }
   }

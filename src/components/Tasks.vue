@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div :class="themeClass" class="tasks-container">
     <div class="content">
       <span class="title">Tasks</span>
 
@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import themeMixin from "@/mixins/themeMixin";
 import TaskItem from "./TaskItem.vue";
 
 export default {
   name: "TasksApp",
+  mixins: [themeMixin],
   components: {
     TaskItem,
   },
@@ -33,13 +35,23 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables.scss";
 
-.container .content {
+.tasks-container {
+  &.light-theme {
+    background: $background-secondary-light;
+    color: $color-text-light;
+  }
+
+  &.dark-theme {
+    background: $background-task-dark;
+    color: $text-dark;
+  }
+}
+
+.tasks-container .content {
   width: 55vw;
   padding: 50px;
   height: 80vh;
   border-radius: 10px;
-  background: $primary-dark;
-  color: $font-secondary-dark;
   display: flex;
   flex-direction: column;
 
@@ -59,12 +71,15 @@ export default {
     gap: 20px;
 
     .new-task {
-      border: $font-secondary-dark 2px solid;
+      border: $color-text 2px solid;
       border-radius: 20px;
       padding: 6px 16px;
       input {
         background: transparent;
-        color: $font-primary-dark;
+        color: $color-text;
+      }
+      .mdi-plus {
+        color: $color-text;
       }
     }
   }

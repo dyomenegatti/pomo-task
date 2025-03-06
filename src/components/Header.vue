@@ -57,11 +57,11 @@ export default {
     cursor: pointer;
 
     &.light-theme {
-      color: $font-primary-light;
+      color: $text-light;
     }
 
     &.dark-theme {
-      color: $font-primary-dark;
+      color: $text-dark;
     }
   }
 }

@@ -2,16 +2,24 @@
 
 $font-main: 'Poppins', sans-serif;
 
+$white: #fff;
+$black: #121215;
 $primary: #7A4FFE;
+$color-text: #8C8CA7;
+$color-text-light: #62626f;
 
-// dark mode
-$background-dark: #121215;
-$primary-dark: #18181C;
-$font-primary-dark: #FFFFFF;
-$font-secondary-dark: #8C8CA7;
+// Light Theme
+$text-light: $black;
+$background-primary-light: $white;
+$background-secondary-light: #F2F2F2;
+$background-task-light: #D6D6D6;
+$new-task-light: $color-text;
+$icons-light: #2F2D36;
 
-//light mode
-$background-light: #FFFFFF;
-$primary-light: #F2F2F2;
-$font-primary-light: #2F2D36;
-$font-secondary-light: #8C8CA7;
+// Dark Theme
+$text-dark: $white;
+$background-primary-dark: $black;
+$background-secondary-dark: #2F2D36;
+$background-task-dark: #18181C;
+$new-task-dark: #2F2D36;
+$icons-dark: $white;
