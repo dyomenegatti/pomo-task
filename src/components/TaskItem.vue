@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div :class="themeClass" class="item-container">
     <div class="task-content">
       <i class="mdi mdi-circle-outline"></i>
       <span>oisfsdfsdfdfd</span>
@@ -13,19 +13,46 @@
 </template>
 
 <script>
+import themeMixin from "@/mixins/themeMixin";
+
 export default {
   name: "TaskItem",
+  mixins: [themeMixin],
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables.scss";
 
-.container {
+.item-container {
+  &.light-theme {
+    background: $background-task-light;
+    color: $color-text-light;
+
+    i {
+      color: $color-text-light;
+    }
+
+    .task-actions button {
+      color: $color-text-light;
+    }
+  }
+
+  &.dark-theme {
+    background: $background-secondary-dark;
+    color: $text-dark;
+
+    i {
+      color: $text-dark;
+    }
+
+    .task-actions button {
+      color: $text-dark;
+    }
+  }
+
   width: 100%;
   height: auto;
-  color: $font-primary-dark;
-  background: $font-primary-light;
   padding: 6px 16px;
   border-radius: 8px;
   display: flex;
@@ -42,6 +69,10 @@ export default {
     gap: 8px;
     justify-content: center;
     align-items: center;
+
+    .mdi-circle-outline {
+      font-size: 1.7rem;
+    }
   }
 
   .task-actions {
@@ -50,7 +81,6 @@ export default {
 
     button {
       background: transparent;
-      color: $font-primary-dark;
     }
   }
 }
