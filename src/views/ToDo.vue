@@ -3,7 +3,7 @@
     <Header></Header>
 
     <div class="content">
-      <Filters></Filters>
+      <!-- <Filters></Filters> -->
       <Tasks></Tasks>
     </div>
   </div>
@@ -12,14 +12,12 @@
 <script>
 import themeMixin from "@/mixins/themeMixin";
 import Header from "@/components/Header.vue";
-import Filters from "@/components/Filters.vue";
 import Tasks from "@/components/Tasks.vue";
 
 export default {
   name: "ToDo",
   components: {
     Header,
-    Filters,
     Tasks,
   },
   mixins: [themeMixin],
@@ -30,8 +28,8 @@ export default {
 @import "@/assets/styles/_variables.scss";
 
 .container {
-  width: 80vw;
-  height: 80vh;
+  // max-width: 100vw;
+  // min-height: 100vh;
 
   .content {
     display: flex;

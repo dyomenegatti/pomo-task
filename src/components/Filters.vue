@@ -1,33 +1,55 @@
 <template>
   <div :class="themeClass" class="container">
     <div class="content">
-      <span class="title">Filters</span>
+      <Title subtitle="Filters"></Title>
 
       <div class="filters">
         <ul class="filters-list">
+          <li class="filter-btn" v-if="showInputSearch" @click="handleInputSearch">
+            <Button :hasTitle="true">
+              <template v-slot:icon>
+                <i class="mdi mdi-magnify"></i>
+              </template>
+              <template v-slot:text>
+                search
+              </template>
+            </Button>
+          </li>
+
+          <div class="filter-search" v-else @click="handleInputSearch">
+            <Input placeholder="search" icon="mdi mdi-magnify" iconPosition="left" customClass="input-square" />
+            <i class="mdi mdi-close"></i>
+          </div>
+
           <li class="filter-btn">
-            <button>
-              <i class="mdi mdi-magnify"></i>
-              search
-            </button>
+            <Button :hasTitle="true">
+              <template v-slot:icon>
+                <i class="mdi mdi-star"></i>
+              </template>
+              <template v-slot:text>
+                favorites
+              </template>
+            </Button>
           </li>
           <li class="filter-btn">
-            <button>
-              <i class="mdi mdi-star"></i>
-              favorites
-            </button>
+            <Button :hasTitle="true">
+              <template v-slot:icon>
+                <i class="mdi mdi-check-circle"></i>
+              </template>
+              <template v-slot:text>
+                complete
+              </template>
+            </Button>
           </li>
           <li class="filter-btn">
-            <button>
-              <i class="mdi mdi-check-circle"></i>
-              complete
-            </button>
-          </li>
-          <li class="filter-btn">
-            <button>
-              <i class="mdi mdi-delete"></i>
-              deleted
-            </button>
+            <Button :hasTitle="true">
+              <template v-slot:icon>
+                <i class="mdi mdi-delete"></i>
+              </template>
+              <template v-slot:text>
+                deleted
+              </template>
+            </Button>
           </li>
         </ul>
         <div class="filters-footer">
@@ -41,10 +63,28 @@
 
 <script>
 import themeMixin from "@/mixins/themeMixin";
+import Title from "./Title.vue";
+import Button from "./Button.vue";
+import Input from "./Input.vue";
 
 export default {
   name: "FiltersApp",
   mixins: [themeMixin],
+  components: { Title, Button, Input, },
+  data() {
+    return {
+      showInputSearch: false,
+    }
+  },
+  methods: {
+    handleInputSearch() {
+      console.log('oi?')
+      this.showInputSearch = false;
+    },
+    handleClickOutside() {
+      this.showInputSearch = true;
+    }
+  },
 };
 </script>
 
@@ -70,6 +110,18 @@ export default {
     .filters .filters-footer .copyright {
       color: $text-dark !important;
     }
+    .input-search {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid $text-dark;
+      border-radius: 4px;
+      padding: 5px 15px;
+    }
+    .input-search input {
+      background: transparent;
+    }
   }
 }
 
@@ -80,12 +132,6 @@ export default {
   display: flex;
   flex-direction: column;
 
-  .title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: $primary;
-  }
-
   .filters {
     height: 100%;
     width: 100%;
@@ -95,13 +141,17 @@ export default {
     align-items: flex-start;
     ul {
       list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
 
-      .filter-btn button {
-        font-size: 1.1rem;
-        background: transparent;
-        cursor: pointer;
-        padding: 10px;
-        color: $color-text-light;
+      .filter-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        .mdi {
+          font-size: 0.8rem;
+        }
       }
     }
 

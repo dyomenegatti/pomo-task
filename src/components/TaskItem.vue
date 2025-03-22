@@ -1,23 +1,41 @@
 <template>
   <div :class="themeClass" class="item-container">
     <div class="task-content">
-      <i class="mdi mdi-circle-outline"></i>
+      <Button :hasTitle="false">
+        <template v-slot>
+          <i class="mdi mdi-circle-outline"></i>
+        </template>
+      </Button>
       <span>oisfsdfsdfdfd</span>
     </div>
     <div class="task-actions">
-      <button><i class="mdi mdi-star-outline"></i></button>
-      <button><i class="mdi mdi-pencil"></i></button>
-      <button><i class="mdi mdi-delete"></i></button>
+      <Button :hasTitle="false">
+        <template v-slot>
+          <i class="mdi mdi-star-outline"></i>
+        </template>
+      </Button>
+      <Button :hasTitle="false">
+        <template v-slot>
+          <i class="mdi mdi-pencil"></i>
+        </template>
+      </Button>
+      <Button :hasTitle="false">
+        <template v-slot>
+          <i class="mdi mdi-delete"></i>
+        </template>
+      </Button>
     </div>
   </div>
 </template>
 
 <script>
 import themeMixin from "@/mixins/themeMixin";
+import Button from "./Button.vue";
 
 export default {
   name: "TaskItem",
   mixins: [themeMixin],
+  components: { Button, },
 };
 </script>
 
@@ -28,27 +46,11 @@ export default {
   &.light-theme {
     background: $background-task-light;
     color: $color-text-light;
-
-    i {
-      color: $color-text-light;
-    }
-
-    .task-actions button {
-      color: $color-text-light;
-    }
   }
 
   &.dark-theme {
     background: $background-secondary-dark;
     color: $text-dark;
-
-    i {
-      color: $text-dark;
-    }
-
-    .task-actions button {
-      color: $text-dark;
-    }
   }
 
   width: 100%;
