@@ -1,15 +1,17 @@
 <template>
   <div :class="themeClass" class="tasks-container">
     <div class="content">
-      <span class="title">Tasks</span>
+      <Title subtitle="Tasks"></Title>
 
       <div class="tasks">
-        <div class="new-task">
-          <input type="text" placeholder="new task" ref="newTaskInput" />
-          <i class="mdi mdi-plus"></i>
-        </div>
+        <Input placeholder="new task" icon="mdi mdi-plus" iconPosition="right" customClass="input-rounded" />
+
         <TaskItem />
       </div>
+      <div class="filters-footer">
+          <div class="underline"></div>
+          <span class="copyright">Dyovana Menegatti</span>
+        </div>
     </div>
   </div>
 </template>
@@ -17,12 +19,16 @@
 <script>
 import themeMixin from "@/mixins/themeMixin";
 import TaskItem from "./TaskItem.vue";
+import Title from "./Title.vue";
+import Input from "./Input.vue";
 
 export default {
   name: "TasksApp",
   mixins: [themeMixin],
   components: {
     TaskItem,
+    Title,
+    Input,
   },
   methods: {
     focusInput() {
@@ -48,9 +54,9 @@ export default {
 }
 
 .tasks-container .content {
-  width: 55vw;
-  padding: 50px;
+  width: 80vw;
   height: 80vh;
+  padding: 50px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
