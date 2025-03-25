@@ -69,15 +69,16 @@ export default {
 }
 
 .input-rounded {
-    border: $color-text 2px solid;
-    border-radius: 20px;
-    padding: 6px 16px;
+  border: $light-text-secondary 2px solid;
+  border-radius: 20px;
+  padding: 6px 16px;
 }
 
 .input-square {
-    border: $color-text 2px solid;
-    border-radius: 4px;
-    padding: 2px 10px;
+  border: $light-text-secondary 2px solid;
+  border-radius: 4px;
+  padding: 2px 10px;
+  
 }
 
 .input-underline {
@@ -86,10 +87,15 @@ export default {
 }
 
 input {
-    border: none;
-    outline: none;
-    background: transparent;
-    color: $color-text;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: $light-text-secondary;
+}
+
+@media (max-width: 768px) {
+  .input-container {
     width: 100%;
+  }
 }
 </style>

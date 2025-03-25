@@ -45,7 +45,7 @@ export default {
     .button__title {
         font-size: 1.1rem;
         cursor: pointer;
-        color: $color-text-light;
+        color: $light-text-secondary;
         
         &:hover {
             color: $primary;
@@ -64,16 +64,19 @@ export default {
     &.light-theme {
         .button__primary,
         .button__title {
-            color: $color-text-light;
+            color: $light-text-secondary;
         }
     }
 
     &.dark-theme {
         .button__primary,
         .button__title {
-            color: $text-dark;
-            background: transparent;
+            color: $dark-text-secondary;
         }
     }
+}
+
+button {
+    background: transparent;
 }
 </style>

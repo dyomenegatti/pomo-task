@@ -1,31 +1,46 @@
 <template>
   <header class="header">
-    <Title
-      title="to"
-      second-title="do."
-    ></Title>
-    
-    <!-- <button :class="themeClass" @click="handleButtonClick">
-      <i v-if="lightMode" class="mdi mdi-weather-sunny"></i>
-      <i v-else class="mdi mdi-weather-night"></i>
-    </button> -->
+    <div class="header__title">
+      <Title
+        title="to"
+        second-title="do."
+      ></Title>
+    </div>
 
-    <Button :hasTitle="true" @click="handleButtonClick">
-      <template #text>
-        oi
-      </template>
-    </Button>
+    <div class="header__timer">
+      <Button :hasTitle="true" @click="handleOpenModal" class="header__pomodoro">
+        <template #text>
+          <i class="mdi mdi-clock"></i>
+          Pomodoro
+        </template>
+      </Button>
+
+      <Pomodoro 
+        :showModal="showModal"
+        @close="handleCloseModal"
+      />
+    </div>
 
     <div class="header__actions">
-      <Input placeholder="search" icon="mdi mdi-magnify" iconPosition="left" customClass="input-square" />
+      <Input v-if="showInputSearch" placeholder="search" icon="mdi mdi-magnify" iconPosition="left" customClass="input-square" />
+      
       <Button :hasTitle="false" @click="handleButtonClick">
         <template v-slot>
           <i v-if="lightMode" class="mdi mdi-weather-sunny"></i>
           <i v-else class="mdi mdi-weather-night"></i>
-  
-          <i class="mdi mdi-menu"></i>
         </template>
       </Button>
+
+      <div class="header__menu">
+        <Button :hasTitle="false" @click="handleOpenDialog">
+          <template v-slot>
+            <i class="mdi mdi-menu"></i>
+          </template>
+        </Button>
+        <div v-if="showMenu" class="header__dropdown-menu">
+          <Filters />
+        </div>
+      </div> 
     </div>
   </header>
 </template>
@@ -35,15 +50,26 @@ import { mapActions } from "vuex";
 import themeMixin from "@/mixins/themeMixin";
 import Title from "./Title.vue";
 import Button from "./Button.vue";
+import Pomodoro from "./Pomodoro.vue";
 import Input from "./Input.vue";
+import Filters from "./Filters.vue";
 
 export default {
   name: "AppHeader",
   mixins: [themeMixin],
-  components: { Title, Button, Input, },
+  components: {
+    Title,
+    Button,
+    Pomodoro,
+    Input,
+    Filters,
+  },
   data() {
     return {
       lightMode: true,
+      showMenu: false,
+      showModal: false,
+      showInputSearch: false,
     };
   },
   methods: {
@@ -51,6 +77,15 @@ export default {
     handleButtonClick() {
       this.toggleTheme();
       this.lightMode = !this.lightMode;
+    },
+    handleOpenDialog() {
+      this.showMenu = !this.showMenu;
+    },
+    handleOpenModal() {
+      this.showModal = true;
+    },
+    handleCloseModal() {
+      this.showModal = false;
     },
   },
 };
@@ -63,27 +98,40 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 20px;
+  padding: 0 20px;
 
-  .header__actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  &__timer {
+    background: $primary;
+    padding: 8px 16px;
+    border-radius: 8px;
+
+    ::v-deep button {
+      color: white !important;
+
+      :hover {
+        color: white !important;
+      }
+    }
   }
 
-  // button {
-  //   font-size: 1.5rem;
-  //   background: transparent;
-  //   margin: 15px;
-  //   cursor: pointer;
+  &__actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
 
-  //   &.light-theme {
-  //     color: $text-light;
-  //   }
+    .header__menu {
+      position: relative;
 
-  //   &.dark-theme {
-  //     color: $text-dark;
-  //   }
-  // }
+      .header__dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: $light-bg;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        z-index: 1000;
+      }
+    }
+  }
 }
 </style>

@@ -43,16 +43,6 @@ export default {
 @import "@/assets/styles/_variables.scss";
 
 .item-container {
-  &.light-theme {
-    background: $background-task-light;
-    color: $color-text-light;
-  }
-
-  &.dark-theme {
-    background: $background-secondary-dark;
-    color: $text-dark;
-  }
-
   width: 100%;
   height: auto;
   padding: 6px 16px;
@@ -60,6 +50,16 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  &.light-theme {
+    background: $light-bg-item;
+    color: $light-text;
+  }
+
+  &.dark-theme {
+    background: $dark-bg-item;
+    color: $dark-text;
+  }
 
   i {
     font-size: 1.3rem;
