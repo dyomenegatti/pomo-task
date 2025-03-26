@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,600;0,700;1,400;1,600&display=swap');
+
+$font-main: 'Poppins', sans-serif;
+
+$primary: #7A4FFE;
+
+// Light Mode
+$light-bg: #FFFFFF;
+$light-bg-list: #F3F3F3;
+$light-bg-item: #E0E0E0;
+$light-bg-pomodoro: #EAEAEB;
+$light-border: #D6D6D6;
+$light-text: #212121;
+$light-text-secondary: #757575;
+
+// Dark Mode
+$dark-bg: #121212;
+$dark-bg-list: #1E1E1E;
+$dark-bg-item: #2C2C2C;
+$dark-bg-pomodoro: #2F2D36;
+$dark-border: #373737;
+$dark-text: #E1E1E1;
+$dark-text-secondary: #A0A0A0;
