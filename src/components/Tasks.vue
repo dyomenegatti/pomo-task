@@ -1,16 +1,19 @@
 <template>
-  <div :class="themeClass" class="tasks-container">
-    <div class="content">
+  <div :class="themeClass" class="tasks">
+    <div class="tasks__content">
       <Title subtitle="Tasks"></Title>
 
-      <div class="tasks">
-        <Input placeholder="new task" icon="mdi mdi-plus" iconPosition="right" customClass="input-rounded" />
-
-        <TaskItem />
+      <div class="tasks__list">
+        <div class="tasks__item">
+          <Input placeholder="new task" icon="mdi mdi-plus" iconPosition="right" customClass="input-rounded" />
+  
+          <TaskItem />
+        </div>
       </div>
-      <div class="filters-footer">
-          <div class="underline"></div>
-          <span class="copyright">Dyovana Menegatti</span>
+
+      <div class="tasks__footer">
+          <div class="tasks__underline"></div>
+          <span class="tasks__copyright">Dyovana Menegatti</span>
         </div>
     </div>
   </div>
@@ -41,52 +44,63 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables.scss";
 
-.tasks-container {
+.tasks {
   &.light-theme {
-    background: $background-secondary-light;
-    color: $color-text-light;
+    background: $light-bg-list;
   }
 
   &.dark-theme {
-    background: $background-task-dark;
-    color: $text-dark;
-  }
-}
-
-.tasks-container .content {
-  width: 80vw;
-  height: 80vh;
-  padding: 50px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-
-  .title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: $primary;
+    background: $dark-bg-list;
   }
 
-  .tasks {
+  &__content {
+    width: 80vw;
+    height: 80vh;
+    padding: 50px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    .title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: $primary;
+    }
+  }
+
+  &__list {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
 
-    .new-task {
-      border: $color-text 2px solid;
-      border-radius: 20px;
-      padding: 6px 16px;
-      input {
-        background: transparent;
-        color: $color-text;
-      }
-      .mdi-plus {
-        color: $color-text;
-      }
+    .tasks__item {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .tasks__underline {
+      width: 100%;
+      height: 2px;
+      background: $light-text-secondary;
+    }
+
+    .tasks__copyright {
+      color: $light-text-secondary;
+      margin-top: 24px;
     }
   }
 }

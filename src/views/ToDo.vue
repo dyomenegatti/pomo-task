@@ -28,11 +28,10 @@ export default {
 @import "@/assets/styles/_variables.scss";
 
 .container {
-  // max-width: 100vw;
-  // min-height: 100vh;
-
   .content {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
   }
 }

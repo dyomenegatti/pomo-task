@@ -31,12 +31,12 @@ export default {
 }
 
 .light-theme {
-  background: $background-primary-light;
-  color: $text-light;
+  background: $light-bg;
+  color: $light-text;
 }
 
 .dark-theme {
-  background: $background-primary-dark;
-  color: $text-dark;
+  background: $dark-bg;
+  color: $dark-text;
 }
 </style>
