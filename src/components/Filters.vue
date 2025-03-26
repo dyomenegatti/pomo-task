@@ -6,7 +6,7 @@
       <div class="filters__list-container">
         <ul class="filters__list">
           <li class="filters__item">
-            <Button :hasTitle="true">
+            <Button :hasTitle="true" @click="handleInputSearch">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-magnify"></i>
               </template>
@@ -62,17 +62,13 @@ export default {
   components: { Title, Button, },
   data() {
     return {
-      showInputSearch: false,
+      
     }
   },
   methods: {
     handleInputSearch() {
-      console.log('oi?')
-      this.showInputSearch = false;
+      this.$emit('search');
     },
-    handleClickOutside() {
-      this.showInputSearch = true;
-    }
   },
 };
 </script>

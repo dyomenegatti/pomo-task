@@ -1,53 +1,84 @@
 <template>
-    <div :class="['input-container', customClass]">
-        <label v-if="label" :for="inputId">{{ label }}</label>
-        <div class="input-wrapper">
-            <i v-if="icon && iconPosition === 'left'" :class="['input-icon', icon]"></i>
-            <input :id="inputId" :type="type" :v-model="value" :placeholder="placeholder"/>
-            <i v-if="icon && iconPosition === 'right'" :class="['input-icon', icon]"></i>
-        </div>
+  <div :class="['input-container', customClass]">
+    <label v-if="label" :for="inputId">{{ label }}</label>
+    <div class="input-wrapper">
+      <i v-if="icon && iconPosition === 'left'" :class="['input-icon', icon]"></i>
+      <input
+        :id="inputId"
+        :type="type"
+        v-model="inputValue"
+        :placeholder="placeholder"
+        @input="validateInput"
+      />
+      <i v-if="icon && iconPosition === 'right'" :class="['input-icon', icon]"></i>
     </div>
+    <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'InputApp',
-    props: {
-        label: {
-            type: String,
-            default: ''
-        },
-        icon: {
-            type: String,
-            default: ''
-        },
-        iconPosition: {
-            type: String,
-            default: 'left',
-            validator: value => ['left', 'right'].includes(value)
-        },
-        type: {
-            type: String,
-            default: 'text'
-        },
-        customClass: {
-            type: String,
-            default: ''
-        },
-        value: {
-            type: [String, Number],
-            default: ''
-        },
-        placeholder: {
-            type: String,
-            default: ''
-        },
+  name: 'InputApp',
+  props: {
+    label: {
+      type: String,
+      default: ''
     },
-    computed: {
-        inputId() {
-            return `input-${this._uid}`;
-        },
+    icon: {
+      type: String,
+      default: ''
     },
+    iconPosition: {
+      type: String,
+      default: 'left',
+      validator: value => ['left', 'right'].includes(value)
+    },
+    type: {
+      type: String,
+      default: 'text'
+    },
+    customClass: {
+      type: String,
+      default: ''
+    },
+    value: {
+      type: [String, Number],
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    },
+  },
+  data() {
+    return {
+      inputValue: this.value,
+      errorMessage: ''
+    };
+  },
+  computed: {
+    inputId() {
+      return `input-${this._uid}`;
+    },
+  },
+  watch: {
+    value(newValue) {
+      this.inputValue = newValue;
+    },
+    inputValue(newValue) {
+      this.$emit('input', newValue);
+    }
+  },
+  methods: {
+    validateInput() {
+      const regex = /^([0-5]?[0-9]):([0-5]?[0-9])$/;
+      if (!regex.test(this.inputValue)) {
+        this.errorMessage = 'Invalid format. Use MM:SS';
+      } else {
+        this.errorMessage = '';
+      }
+    }
+  }
 }
 </script>
 
@@ -78,7 +109,6 @@ export default {
   border: $light-text-secondary 2px solid;
   border-radius: 4px;
   padding: 2px 10px;
-  
 }
 
 .input-underline {
@@ -91,6 +121,12 @@ input {
   outline: none;
   background: transparent;
   color: $light-text-secondary;
+  width: 100%;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8rem;
 }
 
 @media (max-width: 768px) {

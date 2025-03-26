@@ -7,19 +7,27 @@
       ></Title>
     </div>
 
-    <div class="header__timer">
-      <Button :hasTitle="true" @click="handleOpenModal" class="header__pomodoro">
+    <div class="header__pomodoro">
+      <Button :hasTitle="true" @click="handleOpenModal">
         <template #text>
           <i class="mdi mdi-clock"></i>
           Pomodoro
         </template>
       </Button>
-
-      <Pomodoro 
-        :showModal="showModal"
-        @close="handleCloseModal"
-      />
     </div>
+
+    <div v-if="isMobile">
+      <Button :hasTitle="false" @click="handleOpenModal" class="header__pomodoro-timer">
+        <template v-slot>
+          <i class="mdi mdi-clock"></i>
+        </template>
+      </Button>
+    </div>
+
+    <Pomodoro 
+      :showModal="showModal"
+      @close="handleCloseModal"
+    />
 
     <div class="header__actions">
       <Input v-if="showInputSearch" placeholder="search" icon="mdi mdi-magnify" iconPosition="left" customClass="input-square" />
@@ -38,7 +46,9 @@
           </template>
         </Button>
         <div v-if="showMenu" class="header__dropdown-menu">
-          <Filters />
+          <Filters 
+            @search="handleInputSearch"
+          />
         </div>
       </div> 
     </div>
@@ -70,6 +80,7 @@ export default {
       showMenu: false,
       showModal: false,
       showInputSearch: false,
+      isMobile: window.innerWidth <= 560,
     };
   },
   methods: {
@@ -87,6 +98,18 @@ export default {
     handleCloseModal() {
       this.showModal = false;
     },
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 560;
+    },
+    handleInputSearch() {
+      this.showInputSearch = !this.showInputSearch;
+    },
+  },
+  mounted() {
+    window.addEventListener('resize', this.checkMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkMobile);
   },
 };
 </script>
@@ -100,7 +123,7 @@ export default {
   align-items: center;
   padding: 0 20px;
 
-  &__timer {
+  &__pomodoro {
     background: $primary;
     padding: 8px 16px;
     border-radius: 8px;
@@ -130,6 +153,27 @@ export default {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         z-index: 1000;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .header__pomodoro {
+      display: none;
+  }
+
+  .header__pomodoro-timer {
+    display: block;
+    background: $primary;
+    padding: 5px 10px;
+    border-radius: 100%;
+
+    ::v-deep button {
+      color: white !important;
+
+      :hover {
+        color: white !important;
       }
     }
   }
