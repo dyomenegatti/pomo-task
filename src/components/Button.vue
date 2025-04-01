@@ -1,5 +1,9 @@
 <template>
-    <div :class="themeClass" class="button">
+    <div 
+        :class="themeClass" 
+        class="button" 
+        :style="{ '--hover-color': hoverColor || 'var(--primary-color)' }"
+    >
         <button v-if="!hasTitle" class="button__primary" @click="$emit('click')">
             <slot></slot>
         </button>
@@ -24,6 +28,10 @@ export default {
             type: Boolean,
             default: false
         },
+        hoverColor: {
+            type: String,
+            default: null
+        }
     },
 }
 </script>
@@ -46,13 +54,13 @@ export default {
         font-size: 1.1rem;
         cursor: pointer;
         color: $light-text-secondary;
-        
+
         &:hover {
-            color: $primary;
+            color: var(--hover-color);
 
             .button__title-text,
             ::v-deep i {
-                color: $primary;
+                color: var(--hover-color);
             }
         }
     }

@@ -9,7 +9,7 @@
         <span v-if="!isConfig" class="timer">{{ formattedTime }}</span>
 
         <div v-else class="input">
-          <Input type="text" customClass="input-underline" v-model="newTime" placeholder="MM:SS"/>
+          <Input type="timer" customClass="input-underline" v-model="newTime" placeholder="MM:SS"/>
         </div>
 
         <div class="actions">

@@ -30,7 +30,14 @@
     />
 
     <div class="header__actions">
-      <Input v-if="showInputSearch" placeholder="search" icon="mdi mdi-magnify" iconPosition="left" customClass="input-square" />
+      <Input 
+        v-if="showInputSearch"
+        placeholder="search"
+        icon="mdi mdi-magnify"
+        iconPosition="left"
+        customClass="input-square"
+        v-model="searchKeyword"
+      />
       
       <Button :hasTitle="false" @click="handleButtonClick">
         <template v-slot>
@@ -81,10 +88,20 @@ export default {
       showModal: false,
       showInputSearch: false,
       isMobile: window.innerWidth <= 560,
+      searchKeyword: '',
     };
   },
+  mounted() {
+    window.addEventListener('resize', this.checkMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkMobile);
+  },
   methods: {
-    ...mapActions(["toggleTheme"]),
+    ...mapActions([
+      "toggleTheme",
+      "setSearchKeyword",
+    ]),
     handleButtonClick() {
       this.toggleTheme();
       this.lightMode = !this.lightMode;
@@ -105,11 +122,10 @@ export default {
       this.showInputSearch = !this.showInputSearch;
     },
   },
-  mounted() {
-    window.addEventListener('resize', this.checkMobile);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.checkMobile);
+  watch: {
+    searchKeyword(newKeyword) {
+      this.setSearchKeyword(newKeyword);
+    },
   },
 };
 </script>
@@ -170,11 +186,7 @@ export default {
     border-radius: 100%;
 
     ::v-deep button {
-      color: white !important;
-
-      :hover {
-        color: white !important;
-      }
+      color: none !important;
     }
   }
 }
