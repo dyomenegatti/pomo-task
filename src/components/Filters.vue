@@ -1,12 +1,12 @@
 <template>
   <div :class="[themeClass, 'filters']">
-    <div class="filters__content">
+    <div class="filters__content"  :class="themeClass">
       <Title subtitle="Filters"></Title>
 
       <div class="filters__list-container">
         <ul class="filters__list">
           <li class="filters__item">
-            <Button :hasTitle="true" @click="handleInputSearch">
+            <Button :hasTitle="true" @click="handleInputSearch" :hoverColor="'#7A4FFE'">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-magnify"></i>
               </template>
@@ -16,7 +16,7 @@
             </Button>
           </li>
           <li class="filters__item">
-            <Button :hasTitle="true">
+            <Button :hasTitle="true" @click="toggleShowFavorites" :hoverColor="'#7A4FFE'">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-star"></i>
               </template>
@@ -26,7 +26,7 @@
             </Button>
           </li>
           <li class="filters__item">
-            <Button :hasTitle="true">
+            <Button :hasTitle="true" @click="toggleShowComplete" :hoverColor="'#7A4FFE'">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-check-circle"></i>
               </template>
@@ -35,13 +35,14 @@
               </template>
             </Button>
           </li>
+          <div class="underline"></div>
           <li class="filters__item">
-            <Button :hasTitle="true">
+            <Button :hasTitle="true" @click="toggleClearFilters" :hoverColor="'#7A4FFE'">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-delete"></i>
               </template>
               <template v-slot:text>
-                deleted
+                clear
               </template>
             </Button>
           </li>
@@ -55,6 +56,7 @@
 import themeMixin from "@/mixins/themeMixin";
 import Title from "./Title.vue";
 import Button from "./Button.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "FiltersApp",
@@ -66,9 +68,29 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setShowFavorite: 'setShowFavorite',
+      setShowCompleted: 'setShowCompleted',
+      clearFilters: 'clearFilters',
+    }),
     handleInputSearch() {
       this.$emit('search');
     },
+    toggleShowFavorites() {
+      this.setShowFavorite(this.showFavorites);
+    },
+    toggleShowComplete() {
+      this.setShowCompleted(this.showCompleted);
+    },
+    toggleClearFilters() {
+      this.clearFilters();
+    },
+  },
+  computed: {
+    ...mapGetters({
+      showCompleted: 'showCompleted',
+      showFavorites: 'showFavorites',
+    })
   },
 };
 </script>
@@ -109,5 +131,12 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
+
+  .underline {
+    width: 100%;
+    height: 2px;
+    background: $underline-filters;
+  }
 }
 </style>
