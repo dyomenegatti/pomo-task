@@ -2,7 +2,7 @@
   <div :class="['input-container', customClass]">
     <label v-if="label" :for="inputId">{{ label }}</label>
     <div class="input-wrapper">
-      <i v-if="icon && iconPosition === 'left'" :class="['input-icon', icon]"></i>
+      <i v-if="icon && iconPosition === 'left'" :class="['input-icon', icon]" @click="inputValue"></i>
       <input
         :id="inputId"
         :type="type"
@@ -10,7 +10,7 @@
         :placeholder="placeholder"
         @input="validateInput"
       />
-      <i v-if="icon && iconPosition === 'right'" :class="['input-icon', icon]"></i>
+      <i v-if="icon && iconPosition === 'right'" :class="['input-icon', icon]" @click="inputValue"></i>
     </div>
     <span v-if="errorMessage" class="error-message">{{ errorMessage }}</span>
   </div>
@@ -71,11 +71,13 @@ export default {
   },
   methods: {
     validateInput() {
-      const regex = /^([0-5]?[0-9]):([0-5]?[0-9])$/;
-      if (!regex.test(this.inputValue)) {
-        this.errorMessage = 'Invalid format. Use MM:SS';
-      } else {
-        this.errorMessage = '';
+      if(this.type == 'timer') {
+        const regex = /^([0-5]?[0-9]):([0-5]?[0-9])$/;
+        if (!regex.test(this.inputValue)) {
+          this.errorMessage = 'Invalid format. Use MM:SS';
+        } else {
+          this.errorMessage = '';
+        }
       }
     }
   }

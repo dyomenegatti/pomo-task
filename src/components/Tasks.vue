@@ -5,8 +5,15 @@
 
       <div class="tasks__list">
         <div class="tasks__item">
-          <Input placeholder="new task" icon="mdi mdi-plus" iconPosition="right" customClass="input-rounded" />
-  
+          <div class="tasks__new-task">
+            <Input v-model="task" placeholder="new task" customClass="input-rounded"/>
+            <Button :hasTitle="false" @click="handleNewTask" class="tasks__new-task-btn">
+              <template v-slot>
+                <i class="mdi mdi-plus"></i>
+              </template>
+            </Button>
+          </div>
+
           <TaskItem />
         </div>
       </div>
@@ -21,9 +28,11 @@
 
 <script>
 import themeMixin from "@/mixins/themeMixin";
+import { mapActions } from "vuex";
 import TaskItem from "./TaskItem.vue";
 import Title from "./Title.vue";
 import Input from "./Input.vue";
+import Button from "./Button.vue";
 
 export default {
   name: "TasksApp",
@@ -32,11 +41,30 @@ export default {
     TaskItem,
     Title,
     Input,
+    Button,
+  },
+  data() {
+    return {
+      task: '',
+    }
   },
   methods: {
+    ...mapActions({
+      toggleAddTask: 'toggleAddTask',
+      listTasks: 'listTasks',
+    }),
     focusInput() {
       this.$refs.newTaskInput.focus();
     },
+    handleNewTask() {
+      if(this.task.trim() !== '') {
+        this.toggleAddTask({ name: this.task, favorite: false, checked: false, });
+        this.task = '';
+      }
+    },
+  },
+  mounted() {
+    this.listTasks();
   },
 };
 </script>
@@ -82,6 +110,26 @@ export default {
       flex-direction: column;
       gap: 24px;
       align-items: center;
+
+      .tasks__new-task {
+        display: flex;
+        gap: 8px;
+
+        .tasks__new-task-btn {
+          display: block;
+          background: $primary;
+          padding: 2px 8px;
+          border-radius: 100%;
+
+          ::v-deep button {
+            color: white !important;
+
+            :hover {
+              color: white !important;
+            }
+          }
+        }
+      }
     }
   }
 

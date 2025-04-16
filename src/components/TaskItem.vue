@@ -1,85 +1,134 @@
 <template>
-  <div :class="themeClass" class="task-item">
-    <div class="task-item__content">
-      <Button :hasTitle="false">
-        <template v-slot>
-          <i class="mdi mdi-circle-outline"></i>
-        </template>
-      </Button>
-      <span>oisfsdfsdfdfd</span>
-    </div>
-    
-    <div class="task-item__actions">
-      <Button :hasTitle="false">
-        <template v-slot>
-          <i class="mdi mdi-star-outline"></i>
-        </template>
-      </Button>
-      <Button :hasTitle="false">
-        <template v-slot>
-          <i class="mdi mdi-pencil"></i>
-        </template>
-      </Button>
-      <Button :hasTitle="false">
-        <template v-slot>
-          <i class="mdi mdi-delete"></i>
-        </template>
-      </Button>
-    </div>
+  <div class="task-item" v-if="showTaskItem">
+    <div class="task-item__container" :class="themeClass" v-for="item in todos" :key="item.id">
+      <div class="task-item__content">
+        <Button :hasTitle="false" @click="checkedTask(item.id)">
+          <template v-slot>
+            <i :class="item.checked ? 'mdi mdi-checkbox-marked-circle' : 'mdi mdi-circle-outline'"></i>
+          </template>
+        </Button>
+        <span v-if="editingTaskId !== item.id" :class="{ 'task-item__content-checked': item.checked }">{{ item.name }}</span>
+        <Input 
+          v-else 
+          type="text" 
+          customClass="input-underline" 
+          v-model="editedTaskName" 
+        />
+      </div>
+      <div class="task-item__actions">
+        <Button :hasTitle="false" @click="favoriteTask(item.id)">
+          <template v-slot>
+            <i :class="item.favorite ? 'mdi mdi-star' : 'mdi mdi-star-outline'"></i>
+          </template>
+        </Button>
+        <Button :hasTitle="false" @click="editTask(item.id)">
+          <template v-slot>
+            <i :class="editingTaskId === item.id ? 'mdi mdi-check' : 'mdi mdi-pencil'"></i>
+          </template>
+        </Button>
+        <Button :hasTitle="false" @click="removeTask(item.id)">
+          <template v-slot>
+            <i class="mdi mdi-delete"></i>
+          </template>
+        </Button>
+      </div>
 
-    <div class="task-item__menu">
-      <Button :hasTitle="false" @click="handleOpenMenu">
-        <template v-slot>
-          <i class="mdi mdi-dots-vertical"></i>
-        </template>
-      </Button>
-
-      <div v-if="showMenu" class="task-item__dropdown">
-        <Button :hasTitle="true">
-          <template v-slot:icon>
-            <i class="filters__icon mdi mdi-star-outline"></i>
-          </template>
-          <template v-slot:text>
-            favorite
+      <div class="task-item__menu">
+        <Button :hasTitle="false" @click="handleOpenMenu(item.id)">
+          <template v-slot>
+            <i class="mdi mdi-dots-vertical"></i>
           </template>
         </Button>
-        <Button :hasTitle="true">
-          <template v-slot:icon>
-            <i class="filters__icon mdi mdi-pencil"></i>
-          </template>
-          <template v-slot:text>
-            edit
-          </template>
-        </Button>
-        <Button :hasTitle="true">
-          <template v-slot:icon>
-            <i class="filters__icon mdi mdi-delete"></i>
-          </template>
-          <template v-slot:text>
-            delete
-          </template>
-        </Button>
+  
+        <div v-if="activeMenuId === item.id" :class="themeClass" class="task-item__dropdown">
+          <Button :hasTitle="true" @click="favoriteTask(item.id)" :hoverColor="'#7A4FFE'">
+            <template v-slot:icon>
+              <i :class="item.favorite ? 'mdi mdi-star' : 'mdi mdi-star-outline'"></i>
+            </template>
+            <template v-slot:text>
+              favorite
+            </template>
+          </Button>
+          <Button :hasTitle="true" @click="editTask(item.id)" :hoverColor="'#7A4FFE'">
+            <template v-slot:icon>
+              <i class="filters__icon mdi mdi-pencil"></i>
+            </template>
+            <template v-slot:text>
+              edit
+            </template>
+          </Button>
+          <Button :hasTitle="true" @click="removeTask(item.id)" :hoverColor="'#7A4FFE'">
+            <template v-slot:icon>
+              <i class="filters__icon mdi mdi-delete"></i>
+            </template>
+            <template v-slot:text>
+              delete
+            </template>
+          </Button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import themeMixin from "@/mixins/themeMixin";
 import Button from "./Button.vue";
+import Input from "./Input.vue";
 
 export default {
   name: "TaskItem",
   mixins: [themeMixin],
-  components: { Button, },
+  components: { Button, Input, },
   data() {
     return {
-      showMenu: false,
+      activeMenuId: null,
+      editingTaskId: null,
+      editedTaskName: '',
     }
   },
+  mounted() {
+    this.listTasks();
+  },
   methods: {
-    handleOpenMenu() {
-      this.showMenu = !this.showMenu;
+    ...mapActions({
+      listTasks: 'listTasks',
+      toggleRemoveTask: 'toggleRemoveTask',
+      toggleEditTask: 'toggleEditTask',
+      setFavorite: 'setFavorite', 
+      setCheck: 'setCheck', 
+    }),
+    handleOpenMenu(taskId) {
+      this.activeMenuId = this.activeMenuId === taskId ? null : taskId;
+    },
+    removeTask(taskId) {
+      this.toggleRemoveTask(taskId);
+    },
+    editTask(taskId) {
+      if (this.editingTaskId === taskId) {
+        this.toggleEditTask({ id: taskId, name: this.editedTaskName });
+        this.editingTaskId = null;
+        this.editedTaskName = "";
+      } else {
+        const task = this.todos.find(task => task.id === taskId);
+        this.editingTaskId = taskId;
+        this.editedTaskName = task.name;
+      }
+    },
+    favoriteTask(taskId) {
+      this.setFavorite({ id: taskId });
+    },
+    checkedTask(taskId) {
+      this.setCheck({ id: taskId });
+    },
+  },
+  computed: {
+    ...mapGetters({
+      todos: 'filteredTodos',
+    }),
+    showTaskItem() {
+      return this.todos.length > 0;
     },
   },
 };
@@ -90,72 +139,84 @@ export default {
 
 .task-item {
   width: 100%;
-  height: auto;
-  padding: 6px 16px;
-  border-radius: 8px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
   
-  &.light-theme {
-    background: $light-bg-item;
-    color: $light-text;
-  }
-
-  &.dark-theme {
-    background: $dark-bg-item;
-    color: $dark-text;
-  }
-
-  i {
-    font-size: 1.3rem;
-    cursor: pointer;
-  }
-
-  &__content {
+  .task-item__container {
+    width: 100%;
+    height: auto;
+    padding: 6px 16px;
+    border-radius: 8px;
     display: flex;
-    gap: 8px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-
-    .mdi-circle-outline {
-      font-size: 1.7rem;
+    
+    &.light-theme {
+      background: $light-bg-item;
+      color: $light-text;
     }
-  }
-
-  &__actions {
-    display: flex;
-    gap: 8px;
-
-    button {
-      background: transparent;
+  
+    &.dark-theme {
+      background: $dark-bg-item;
+      color: $dark-text;
     }
-  }
+  
+    i {
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+  
+    .task-item__content {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
 
-  &__menu {
-    display: none;
+      .task-item__content-checked {
+        text-decoration: line-through;
+      }
+  
+      .mdi {
+        font-size: 1.7rem;
+      }
+    }
+  
+    .task-item__actions {
+      display: flex;
+      gap: 8px;
+  
+      button {
+        background: transparent;
+      }
+    }
+  
+    .task-item__menu {
+      display: none;
+    }
   }
 }
 
 @media screen and (max-width: 560px) {
-  .task-item__actions {
-    display: none;
-  }
-
-  .task-item__menu {
-    display: flex;
-    position: relative;
-
-    .task-item__dropdown {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: $light-bg;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-      z-index: 1000;
-      width: 150px;
-      padding: 10px;
+  .task-item__container {
+    .task-item__actions {
+      display: none !important;
+    }
+  
+    .task-item__menu {
+      display: block !important;
+      position: relative;
+  
+      .task-item__dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        z-index: 1000;
+        width: 150px;
+        padding: 10px;
+      }
     }
   }
 }
