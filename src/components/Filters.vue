@@ -1,12 +1,12 @@
 <template>
   <div :class="[themeClass, 'filters']">
     <div class="filters__content"  :class="themeClass">
-      <Title subtitle="Filters"></Title>
+      <Title subtitle="Filters" data-test="filter_header_title"></Title>
 
       <div class="filters__list-container">
         <ul class="filters__list">
           <li class="filters__item">
-            <Button :hasTitle="true" @click="handleInputSearch" :hoverColor="'#7A4FFE'">
+            <Button :hasTitle="true" @click="handleInputSearch" :hoverColor="hoverColor" data-test="filter_btn_search">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-magnify"></i>
               </template>
@@ -16,7 +16,7 @@
             </Button>
           </li>
           <li class="filters__item">
-            <Button :hasTitle="true" @click="toggleShowFavorites" :hoverColor="'#7A4FFE'">
+            <Button :hasTitle="true" @click="toggleShowFavorites" :hoverColor="hoverColor" data-test="filter_btn_favorite">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-star"></i>
               </template>
@@ -26,7 +26,7 @@
             </Button>
           </li>
           <li class="filters__item">
-            <Button :hasTitle="true" @click="toggleShowComplete" :hoverColor="'#7A4FFE'">
+            <Button :hasTitle="true" @click="toggleShowComplete" :hoverColor="hoverColor" data-test="filter_btn_complete">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-check-circle"></i>
               </template>
@@ -35,9 +35,11 @@
               </template>
             </Button>
           </li>
-          <div class="underline"></div>
           <li class="filters__item">
-            <Button :hasTitle="true" @click="toggleClearFilters" :hoverColor="'#7A4FFE'">
+            <div class="underline"></div>
+          </li>
+          <li class="filters__item">
+            <Button :hasTitle="true" @click="toggleClearFilters" :hoverColor="hoverColor" data-test="filter_btn_clear">
               <template v-slot:icon>
                 <i class="filters__icon mdi mdi-delete"></i>
               </template>
@@ -90,7 +92,10 @@ export default {
     ...mapGetters({
       showCompleted: 'showCompleted',
       showFavorites: 'showFavorites',
-    })
+    }),
+    hoverColor() {
+      return '#7A4FFE';
+    }
   },
 };
 </script>

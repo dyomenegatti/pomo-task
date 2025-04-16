@@ -4,11 +4,12 @@
       <Title
         title="to"
         second-title="do."
+        data-test="header_title"
       ></Title>
     </div>
 
     <div class="header__pomodoro">
-      <Button :hasTitle="true" @click="handleOpenModal">
+      <Button :hasTitle="true" @click="handleOpenModal" data-test="header_btn_pomodoro">
         <template #text>
           <i class="mdi mdi-clock"></i>
           Pomodoro
@@ -17,7 +18,7 @@
     </div>
 
     <div v-if="isMobile">
-      <Button :hasTitle="false" @click="handleOpenModal" class="header__pomodoro-timer">
+      <Button :hasTitle="false" @click="handleOpenModal" class="header__pomodoro-timer" data-test="header_btn_pomodoro_mobile">
         <template v-slot>
           <i class="mdi mdi-clock"></i>
         </template>
@@ -27,6 +28,7 @@
     <Pomodoro 
       :showModal="showModal"
       @close="handleCloseModal"
+      data-test="header_pomodoro_modal"
     />
 
     <div class="header__actions">
@@ -37,9 +39,10 @@
         iconPosition="left"
         customClass="input-square"
         v-model="searchKeyword"
+        data-test="header_input_search"
       />
       
-      <Button :hasTitle="false" @click="handleButtonClick">
+      <Button :hasTitle="false" @click="handleButtonClick" data-test="header_btn_toggle_theme">
         <template v-slot>
           <i v-if="lightMode" class="mdi mdi-weather-sunny"></i>
           <i v-else class="mdi mdi-weather-night"></i>
@@ -47,14 +50,15 @@
       </Button>
 
       <div class="header__menu">
-        <Button :hasTitle="false" @click="handleOpenDialog">
+        <Button :hasTitle="false" @click="handleOpenDialog" data-test="header_btn_menu_dropdown">
           <template v-slot>
             <i class="mdi mdi-menu"></i>
           </template>
         </Button>
-        <div v-if="showMenu" class="header__dropdown-menu">
+        <div v-if="showMenu" class="header__dropdown-menu" data-test="header_menu_dropdown">
           <Filters 
             @search="handleInputSearch"
+            data-test="header_filters_modal"
           />
         </div>
       </div> 
