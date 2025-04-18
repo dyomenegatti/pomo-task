@@ -1,39 +1,45 @@
 <template>
-  <div class="modal-pomodoro__overlay" v-if="showModal">
-    <div class="modal-pomodoro__content" :class="themeClass">
-      <div class="modal-pomodoro__close" @click="handleCloseModal">
+  <div class="modal-pomodoro__overlay" v-if="showModal" data-test="pomodoro_modal">
+    <div class="modal-pomodoro__content" :class="themeClass" data-test="pomodoro_content">
+      <div class="modal-pomodoro__close" @click="handleCloseModal" data-test="pomodoro_btn_close">
         <i class="mdi mdi-close"></i>
       </div>
 
       <div class="modal-pomodoro__timer">
-        <span v-if="!isConfig" class="timer">{{ formattedTime }}</span>
+        <span v-if="!isConfig" class="timer" data-test="pomodoro_btn_timer">{{ formattedTime }}</span>
 
         <div v-else class="input">
-          <Input type="timer" customClass="input-underline" v-model="newTime" placeholder="MM:SS"/>
+          <Input 
+            type="timer" 
+            customClass="input-underline" 
+            v-model="newTime" 
+            placeholder="MM:SS"
+            data-test="pomodoro_input_timer"
+          />
         </div>
 
         <div class="actions">
-          <Button :hasTitle="false" @click="handleStartTimer" v-if="showPlayBtn">
+          <Button :hasTitle="false" @click="handleStartTimer" v-if="showPlayBtn" data-test="pomodoro_btn_start_timer">
             <template v-slot>
               <i class="mdi mdi-play"></i>
             </template>
           </Button>
-          <Button :hasTitle="false" @click="handlePauseTimer" v-if="showPauseBtn">
+          <Button :hasTitle="false" @click="handlePauseTimer" v-if="showPauseBtn" data-test="pomodoro_btn_pause_timer">
             <template v-slot>
               <i class="mdi mdi-pause"></i>
             </template>
           </Button>
-          <Button :hasTitle="false" @click="handleResetTimer" v-if="showStopBtn">
+          <Button :hasTitle="false" @click="handleResetTimer" v-if="showStopBtn" data-test="pomodoro_btn_stop_timer">
             <template v-slot>
               <i class="mdi mdi-stop"></i>
             </template>
           </Button>
-          <Button :hasTitle="false" @click="handleOpenConfig" v-if="showConfigBtn">
+          <Button :hasTitle="false" @click="handleOpenConfig" v-if="showConfigBtn" data-test="pomodoro_btn_config_timer">
             <template v-slot>
               <i class="mdi mdi-tools"></i>
             </template>
           </Button>
-          <Button :hasTitle="false" @click="applyNewTime" v-if="isConfig">
+          <Button :hasTitle="false" @click="applyNewTime" v-if="isConfig" data-test="pomodoro_btn_confirm_timer">
             <template v-slot>
               <i class="mdi mdi-check"></i>
             </template>
