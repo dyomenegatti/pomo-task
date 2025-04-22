@@ -1,26 +1,26 @@
 <template>
-  <div :class="themeClass" class="tasks">
+  <div :class="themeClass" class="tasks" data-test="tasks_container">
     <div class="tasks__content">
-      <Title subtitle="Tasks"></Title>
+      <Title subtitle="Tasks" data-test="tasks_title"></Title>
 
       <div class="tasks__list">
         <div class="tasks__item">
           <div class="tasks__new-task">
-            <Input v-model="task" placeholder="new task" customClass="input-rounded"/>
-            <Button :hasTitle="false" @click="handleNewTask" class="tasks__new-task-btn">
+            <Input v-model="task" placeholder="new task" customClass="input-rounded" data-test="tasks_input_new_task"/>
+            <Button :hasTitle="false" @click="handleNewTask" class="tasks__new-task-btn" data-test="tasks_btn_new_task">
               <template v-slot>
                 <i class="mdi mdi-plus"></i>
               </template>
             </Button>
           </div>
 
-          <TaskItem />
+          <TaskItem data-test="tasks_itens_list"/>
         </div>
       </div>
 
-      <div class="tasks__footer">
+      <div class="tasks__footer" data-test="tasks_footer">
           <div class="tasks__underline"></div>
-          <span class="tasks__copyright">Dyovana Menegatti</span>
+          <span class="tasks__copyright" data-test="tasks_copyright">Dyovana Menegatti</span>
         </div>
     </div>
   </div>
