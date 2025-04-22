@@ -1,47 +1,48 @@
 <template>
-  <div class="task-item" v-if="showTaskItem">
-    <div class="task-item__container" :class="themeClass" v-for="item in todos" :key="item.id">
-      <div class="task-item__content">
-        <Button :hasTitle="false" @click="checkedTask(item.id)">
+  <div class="task-item" v-if="showTaskItem" data-test="task_item_container">
+    <div class="task-item__container" :class="themeClass" v-for="item in todos" :key="item.id" data-test="task_item_list">
+      <div class="task-item__content" data-test="task_item">
+        <Button :hasTitle="false" @click="checkedTask(item.id)" data-test="task_item_btn_check">
           <template v-slot>
-            <i :class="item.checked ? 'mdi mdi-checkbox-marked-circle' : 'mdi mdi-circle-outline'"></i>
+            <i :class="item.checked ? 'mdi mdi-checkbox-marked-circle' : 'mdi mdi-circle-outline'" data-test="task_item_icon_checked"></i>
           </template>
         </Button>
-        <span v-if="editingTaskId !== item.id" :class="{ 'task-item__content-checked': item.checked }">{{ item.name }}</span>
+        <span v-if="editingTaskId !== item.id" :class="{ 'task-item__content-checked': item.checked }" data-test="task_item_name_task">{{ item.name }}</span>
         <Input 
           v-else 
           type="text" 
           customClass="input-underline" 
           v-model="editedTaskName" 
+          data-test="task_item_input_new_task"
         />
       </div>
-      <div class="task-item__actions">
-        <Button :hasTitle="false" @click="favoriteTask(item.id)">
+      <div class="task-item__actions" data-test="task_item_actions">
+        <Button :hasTitle="false" @click="favoriteTask(item.id)" data-test="task_item_btn_favorite">
           <template v-slot>
-            <i :class="item.favorite ? 'mdi mdi-star' : 'mdi mdi-star-outline'"></i>
+            <i :class="item.favorite ? 'mdi mdi-star' : 'mdi mdi-star-outline'" data-test="task_item_icon_favorite"></i>
           </template>
         </Button>
-        <Button :hasTitle="false" @click="editTask(item.id)">
+        <Button :hasTitle="false" @click="editTask(item.id)" data-test="task_item_btn_edit">
           <template v-slot>
-            <i :class="editingTaskId === item.id ? 'mdi mdi-check' : 'mdi mdi-pencil'"></i>
+            <i :class="editingTaskId === item.id ? 'mdi mdi-check' : 'mdi mdi-pencil'" data-test="task_item_icon_edited"></i>
           </template>
         </Button>
-        <Button :hasTitle="false" @click="removeTask(item.id)">
+        <Button :hasTitle="false" @click="removeTask(item.id)" data-test="task_item_btn_delete">
           <template v-slot>
-            <i class="mdi mdi-delete"></i>
+            <i class="mdi mdi-delete" data-test="task_item_icon_deleted"></i>
           </template>
         </Button>
       </div>
 
-      <div class="task-item__menu">
-        <Button :hasTitle="false" @click="handleOpenMenu(item.id)">
+      <div class="task-item__menu" data-test="task_item_menu_mobile">
+        <Button :hasTitle="false" @click="handleOpenMenu(item.id)" data-test="task_item_btn_menu">
           <template v-slot>
             <i class="mdi mdi-dots-vertical"></i>
           </template>
         </Button>
   
-        <div v-if="activeMenuId === item.id" :class="themeClass" class="task-item__dropdown">
-          <Button :hasTitle="true" @click="favoriteTask(item.id)" :hoverColor="'#7A4FFE'">
+        <div v-if="activeMenuId === item.id" :class="themeClass" class="task-item__dropdown" data-test="task_item_menu_dropdown">
+          <Button :hasTitle="true" @click="favoriteTask(item.id)" :hoverColor="'#7A4FFE'" data-test="task_item_btn_favorite_menu">
             <template v-slot:icon>
               <i :class="item.favorite ? 'mdi mdi-star' : 'mdi mdi-star-outline'"></i>
             </template>
@@ -49,7 +50,7 @@
               favorite
             </template>
           </Button>
-          <Button :hasTitle="true" @click="editTask(item.id)" :hoverColor="'#7A4FFE'">
+          <Button :hasTitle="true" @click="editTask(item.id)" :hoverColor="'#7A4FFE'" data-test="task_item_btn_edit_menu">
             <template v-slot:icon>
               <i class="filters__icon mdi mdi-pencil"></i>
             </template>
@@ -57,7 +58,7 @@
               edit
             </template>
           </Button>
-          <Button :hasTitle="true" @click="removeTask(item.id)" :hoverColor="'#7A4FFE'">
+          <Button :hasTitle="true" @click="removeTask(item.id)" :hoverColor="'#7A4FFE'" data-test="task_item_btn_delete_menu">
             <template v-slot:icon>
               <i class="filters__icon mdi mdi-delete"></i>
             </template>
